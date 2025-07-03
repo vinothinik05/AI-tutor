@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Us</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 20px;
+            height: 16px;
+            cursor: pointer;
+            position: relative;
+        }
+        .menu-bar {
+            width: 20px;
+            height: 3px;
+            background-color: white;
+            transition: transform 0.4s, opacity 0.4s;
+            position: absolute;
+        }
+        .bar1 {
+            top: 0;
+        }
+        .bar2 {
+            top: 6px;
+        }
+        .bar3 {
+            top: 12px;
+        }
+        .menu-icon.active .bar1 {
+            transform: rotate(-45deg) translate(-3px, 5px);
+        }
+        .menu-icon.active .bar2 {
+            opacity: 0;
+        }
+        .menu-icon.active .bar3 {
+            transform: rotate(45deg) translate(-3px, -5px);
+        }
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding-top: 60px;
+            transition: left 0.3s ease;
+            z-index: 999;
+        }
+        .side-menu a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+        }
+        .side-menu a:hover {
+            background-color: #575757;
+        }
+        .side-menu.active {
+            left: 0;
+        }
+        .header-content {
+            text-align: center;
+            flex-grow: 1;
+            font-size: 24px;
+        }
+        .content {
+            margin-top: 80px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div class="menu-bar bar1"></div>
+            <div class="menu-bar bar2"></div>
+            <div class="menu-bar bar3"></div>
+        </div>
+        <div class="header-content">About Us</div>
+    </div>
+
+    <div class="side-menu" id="sideMenu">
+        <a href="{{ url_for('app1') }}">Home</a>
+        <a href="#">Services</a>
+        <a href="#">Projects</a>
+        <a href="#">Contact</a>
+    </div>
+
+    <div class="content">
+        <section id="team-members">
+            <div class="profile-card">
+                <h2>Shankari N</h2>
+                <p>AIML</p>
+            </div>
+            <div class="profile-card">
+                <h2>Vinothini K</h2>
+                <p>AIML</p>
+            </div>
+            <div class="profile-card">
+                <h2>Rishe S</h2>
+                <p>AIML</p>
+            </div>
+            <div class="profile-card">
+                <h2>Nandhini A</h2>
+                <p>CSE</p>
+            </div>
+        </section>
+        <footer>
+            <p>© 2025 Tech Titans</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("sideMenu");
+            var icon = document.querySelector(".menu-icon");
+            if (menu.classList.contains("active")) {
+                menu.classList.remove("active");
+                icon.classList.remove("active");
+            } else {
+                menu.classList.add("active");
+                icon.classList.add("active");
+            }
+        }
+    </script>
+</body>
+</html>

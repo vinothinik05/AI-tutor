@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Course</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <h1>Mastering JavaScript</h1>
+    <p>Learn advanced JavaScript concepts such as asynchronous programming, closures, and design patterns.</p>
+
+    <!-- Video Player -->
+    <video width="700" controls>
+        <source src="{{ url_for('Artificial Intelligence Full Course _ Artificial Intelligence Tutorial for Beginners _ Edureka.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <br>
+    <a href="{{ url_for('home') }}" class="btn">Back to Courses</a>
+
+</body>
+</html>

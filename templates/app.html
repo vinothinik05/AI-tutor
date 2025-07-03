@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Education Platform</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Correct path for CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='rchat.css') }}">
+    <style>
+        body {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.header {
+    transform: translateY(-50px);
+    opacity: 0;
+    animation: slideDown 1s ease-out forwards;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+        /* Ensure dark mode applies to the entire body and all sections */
+.dark-mode {
+    background-color: #121212 !important;
+    color: white !important;
+}
+
+.dark-mode header nav {
+    background-color: #333 !important;
+}
+
+.dark-mode .navbar {
+    background-color: #343a40 !important;
+}
+
+.dark-mode .profile-card, 
+.dark-mode .content-card, 
+.dark-mode .lesson-card, 
+.dark-mode .assessment-card,
+.dark-mode .calendar-container,
+.dark-mode .card,
+.dark-mode .card-body,
+.dark-mode .card-title,
+.dark-mode .card-text,
+.dark-mode .btn,
+.dark-mode footer {
+    background-color: #222 !important;
+    color: white !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .btn {
+    border-color: white !important;
+    color: white !important;
+}
+
+.dark-mode .btn:hover {
+    background-color: #444 !important;
+}
+
+.dark-mode .calendar-container {
+    background-color: #222 !important;
+    color: white !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .calendar-day {
+    background-color: #333 !important;
+}
+
+.dark-mode .calendar-date {
+    background-color: #282828 !important;
+}
+
+.dark-mode footer {
+    background-color: #222 !important;
+}
+
+.dark-mode .dashboard-container {
+    background-color: #111 !important;
+}
+
+.dark-mode h1, 
+.dark-mode h2, 
+.dark-mode h3, 
+.dark-mode p {
+    color: white !important;
+}
+
+.dark-mode .card {
+    background-color: #222 !important;
+    color: white !important;
+    border: 1px solid #444 !important;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-mode .card-body {
+    background-color: #222 !important;
+    color: white !important;
+}
+
+.dark-mode .card-title,
+.dark-mode .card-text {
+    color: white !important;
+}
+
+.dark-mode .btn {
+    border-color: white !important;
+    color: white !important;
+}
+
+.dark-mode .btn:hover {
+    background-color: #444 !important;
+}
+
+/* Ensure dark mode applies to the main section */
+.dark-mode .container,
+.dark-mode .main-content,
+.dark-mode .courses-section {
+    background-color: #121212 !important;
+}
+
+/* Ensure dark mode applies to individual cards */
+.dark-mode .card {
+    background-color: #222 !important;
+    color: white !important;
+    border: 1px solid #444;
+}
+
+/* Dark mode for text inside cards */
+.dark-mode .card-title,
+.dark-mode .card-text {
+    color: white !important;
+}
+
+/* Dark mode for buttons */
+.dark-mode .btn {
+    border-color: white !important;
+    color: white !important;
+}
+
+.dark-mode .btn:hover {
+    background-color: #444 !important;
+}
+
+/* Ensure dark mode applies to the user input section */
+.dark-mode #user-input {
+    background-color: #222 !important;
+    color: white !important;
+}
+
+.dark-mode #user-input .form-control {
+    background-color: #333 !important;
+    color: white !important;
+    border-color: #444 !important;
+}
+
+.dark-mode #user-input .btn {
+    background-color: #444 !important;
+    color: white !important;
+}
+
+/* Ensure dark mode applies to the content recommendation section */
+.dark-mode #content-recommendation {
+    background-color: #121212 !important;
+    color: white !important;
+}
+
+.dark-mode #content-recommendation .content-card {
+    background-color: #222 !important;
+    color: white !important;
+    border: 1px solid #444 !important;
+}
+
+.dark-mode #content-recommendation .content-card img {
+    filter: brightness(0.8);
+}
+
+/* Ensure dark mode applies to the lesson generation section */
+.dark-mode #lesson-generation {
+    background-color: #121212 !important;
+    color: white !important;
+}
+
+.dark-mode #lesson-generation .lesson-card {
+    background-color: #222 !important;
+    color: white !important;
+    border: 1px solid #444 !important;
+}
+
+/* Ensure dark mode applies to the feedback section */
+.dark-mode #assessments {
+    background-color: #121212 !important;
+    color: white !important;
+}
+
+.dark-mode #assessments .assessment-card {
+    background-color: #222 !important;
+    color: white !important;
+    border: 1px solid #444 !important;
+}
+
+
+         
+        body {box-shadow: lightblue; 
+    }
+    header nav{
+        background-color: lightseagreen;
+    }
+    header nav ul { 
+        display: flex; 
+        justify-content: center; 
+        padding: 2px 0; /* Reduced height */
+        margin: 0; 
+        list-style: none; 
+    }
+    header nav ul li a { 
+        color: #fff; 
+        margin: 0 10px; 
+        font-weight: 500; 
+        padding: 3px 15px; 
+        border-radius: 5px; 
+        transition: background-color 0.3s ease, transform 0.2s ease; 
+    }
+    header nav ul li a:hover { 
+        background-color: #6c757d; /* Grey on hover */
+        text-decoration: none; 
+        transform: scale(1.05); 
+    }
+
+    .section-title { 
+        text-align: center; 
+        margin-top: 50px; 
+        margin-bottom: 30px; 
+        font-size: 2rem; 
+        font-weight: bold; 
+        color: #212529; 
+    }
+
+    /* Cards Hover Animation */
+    .profile-card, .content-card, .lesson-card, .assessment-card { 
+        transition: transform 0.3s ease, box-shadow 0.3s ease; 
+        border-radius: 12px; 
+    }
+    .profile-card:hover, .content-card:hover, .lesson-card:hover, .assessment-card:hover { 
+        transform: scale(1.05); 
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
+    }
+
+    .content-card img { 
+        width: 100%; 
+        height: 180px; 
+        object-fit: cover; 
+        border-top-left-radius: 12px; 
+        border-top-right-radius: 12px; 
+    }
+    /* Recommended Content Width Adjustment */
+    .content-card .p-3 {
+            min-height: 220px; 
+        }
+    .content-card h5 { 
+        font-size: 1.1rem; 
+        font-weight: 600; 
+    }
+    .content-card p { 
+        font-size: 0.95rem; 
+        margin-bottom: 10px; 
+    }
+    /* Increase width for recommended content cards */
+    @media (min-width: 992px) { 
+            #content-recommendation .col-lg-3 { 
+                flex: 0 0 28%; 
+                max-width: 100%; 
+        }
+    }
+
+   
+
+        .calendar-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header button, .calendar-header select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ced4da;
+            background-color: #f1f3f5;
+            font-size: 14px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .calendar-day, .calendar-date {
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .calendar-day {
+            font-weight: bold;
+            background-color: #e2e6ea;
+        }
+
+        .calendar-date {
+            position: relative;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: background-color 0.2s ease;
+        }
+
+        .calendar-date:hover {
+            background-color: #e0f7fa;
+        }
+
+        .today {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+
+        .activity-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #dc3545;
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+        }
+
+        .activity-popup {
+            display: none;
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #343a40;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .calendar-date:hover .activity-popup {
+            display: block;
+        }
+
+        footer { 
+    background-color: #212529;  /* Darker shade for a sleek look */
+    color: #f8f9fa;  /* Softer white for better contrast */
+    padding: 40px 0;  /* Increased padding for better spacing */
+    text-align: center; 
+    margin-top: 50px; 
+    font-size: 16px;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Limits width for a cleaner layout */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+footer nav ul { 
+    display: flex; 
+    justify-content: center; 
+    gap: 20px; 
+    padding: 0; 
+    list-style: none; 
+    margin: 10px 0;
+}
+
+footer nav ul li a { 
+    color: #adb5bd; 
+    font-weight: 400; 
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+footer nav ul li a:hover { 
+    color: #f8f9fa; 
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    color: #adb5bd;
+    font-size: 20px;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #f8f9fa;
+}
+
+    .coin-display {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ffd700;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    color: #000;
+}
+
+.coin-display i {
+    margin-right: 5px;
+}
+
+ /* Chatbot CSS */
+ #chat-container {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 400px; /* Adjust width as needed */
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        #chat-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            backdrop-filter: blur(5px); /* Blur effect */
+            z-index: 999;
+        }
+
+        #chat-header {
+            background: #000000;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        #close-chat {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            cursor: pointer;
+            background: white;
+            color: #c40024;
+            border: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        #chat-box {
+            height: calc(100vh - 120px); /* Adjust height */
+            overflow-y: auto;
+            padding: 10px;
+            background: #fff5f5;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-message {
+            background: #ffffff;
+            color: #000000;
+            align-self: flex-end;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            max-width: 80%;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            animation: popIn 0.3s ease-in-out;
+            border: 2px solid #000000;
+        }
+
+        .bot-message {
+            background: #ff4d6d;
+            color: white;
+            align-self: flex-start;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            max-width: 80%;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            animation: popIn 0.3s ease-in-out;
+            border: 2px solid #000000;
+        }
+
+        #user-input {
+            width: 92%;
+            margin: 10px;
+            padding: 12px;
+            border-radius: 30px;
+            font-size: 16px;
+            color: #333;
+            transition: 0.3s ease-in-out;
+        }
+
+        #send-button {
+            background: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #toggle-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff758c, #ff4d6d);
+            color: white;
+            padding: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 30px;
+            z-index: 1001; /* Ensure it's above the overlay */
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        #chat-container,
+        #chat-overlay {
+            display: none; /* Ensure they start hidden */
+        }
+
+        #chat-container.active,
+        #chat-overlay.active {
+            display: block; /* Show when active */
+        }
+        #chat-user-input {
+    width: 100%;
+    max-width: 400px; /* Adjust width as needed */
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#chat-user-input:focus {
+    border-color: #007bff; /* Blue highlight on focus */
+    box-shadow: 2px 2px 8px rgba(0, 123, 255, 0.5);
+}
+
+        .leaderboard-box {
+      flex: 2;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .leaderboard-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.typing-text {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid #000;
+    width: 0;
+    animation: typing 2s steps(20) forwards, blink 0.5s infinite;
+    
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.animated-bg {
+    height: 100vh;
+    background: linear-gradient(-45deg, #ff416c, #ff4b2b, #1a2a6c, #00c9ff);
+    background-size: 400% 400%;
+    animation: gradientAnimation 8s ease infinite;
+}
+
+#user-profile {
+    max-width: 90%;  /* Increase width from Bootstrap's default */
+    width: 1200px;    /* Set a larger fixed width */
+    margin: 0 auto;   /* Center the section */
+}
+
+.profile-card {
+    padding: 30px;       /* Add more padding for better spacing */
+    max-width: 1000px;   /* Increase profile card width */
+    margin: auto;        /* Keep it centered */
+}
+
+.search-bar {
+        display: flex;
+        max-width: 400px;
+        margin: 0 auto;
+        border: 2px solid #007bff; /* Blue border */
+        border-radius: 25px;
+        overflow: hidden;
+    }
+
+    .search-bar input {
+        flex: 1;
+        border: none;
+        padding: 10px 15px;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .search-bar button {
+        background-color: #007bff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 0 25px 25px 0;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+    }
+
+    .search-bar button:hover {
+        background-color: #0056b3;
+    }
+
+    .search-bar i {
+        color: white;
+        font-size: 18px;
+    }
+    /* Carousel Image Styling */
+    .carousel-item img {
+            width: 70%;
+            height: 500px; /* Adjust as needed */
+            object-fit:fill;
+        }
+
+        /* Positioning the Search Bar */
+        .search-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            z-index: 10;
+            text-align: center;
+        }
+
+        /* Search Bar Styling */
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 2px solid blue;
+            border-radius: 50px;
+            background-color: white;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        .search-box button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-box i {
+            font-size: 20px;
+            color: blue;
+        }
+
+        /* Typing Animation */
+        .typing-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-top: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid white;
+            width: 0;
+            animation: typing 4s steps(40, end) infinite, blink 0.7s infinite;
+        }
+
+        @keyframes typing {
+            0% { width: 0 }
+            50% { width: 100% }
+            100% { width: 0 }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent }
+        }
+        /* Suggestion Container */
+        .suggestion-container {
+            position: fixed;
+            top: 20px; /* Position at the top */
+            right: -350px; /* Start off-screen to the right */
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none; /* Hidden by default */
+            animation: slideIn 0.5s forwards, fadeOut 0.5s 1.5s forwards;
+        }
+
+        /* Suggestion Header */
+        .suggestion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        /* Close Button */
+        .close-btn {
+            cursor: pointer;
+            font-weight: bold;
+            color: #888;
+        }
+
+        .close-btn:hover {
+            color: #000;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                right: -350px; /* Start off-screen to the right */
+            }
+            to {
+                right: 20px; /* Slide in to the top-right corner */
+            }
+        }
+
+        
+
+
+
+
+</style>
+</head>
+<body class="light-mode">
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+            <div class="container-fluid">
+                <!-- Logo on the left -->
+            <a class="navbar-brand" href="{{ url_for('login') }}"><!--new-->
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" height="40">
+            </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        {% if current_user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">User Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li><!--new logout-->
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="#content-recommendation">Content Recommendation</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('performance') }}">Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('assessment.assessment_home') }}">Assessments</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('extrahtml') }}">Classroom</a></li>
+                        <li class="nav-item">
+                            <button id="show-coins-btn" class="btn btn-outline-primary">Show My Coins</button>
+                        </li>
+                    </ul>
+                </div>
+                <button id="themeToggle" class="btn btn-outline-secondary"><i class="fas fa-sun"></i></button>
+            </div>
+        </nav>
+    </header>
+    
+
+    <!-- Suggestion Box -->
+    <div id="suggestion-container" class="suggestion-container">
+        <div class="suggestion-header">
+            <span></span>
+            <span class="close-btn" onclick="closeSuggestion()">x</span>
+        </div>
+        <div class="suggestion-text">
+            <!-- Random suggestion will be displayed here -->
+        </div>
+    </div>
+    <script>
+        // Array of suggestions (copy to prevent modification)
+        let suggestions = [
+        "We recommend you check out this feature!",
+        "Have you tried using the search bar?",
+        "You can customize your profile picture here.",
+        "New features coming soon, stay tuned!",
+        "Don't forget to check your notifications!"
+    ];
+
+    function closeSuggestion() {
+        document.getElementById('suggestion-container').style.display = 'none';
+
+        // Show next suggestion after 2 seconds if any left
+        if (suggestions.length > 0) {
+            setTimeout(showSuggestion, 2000);
+        }
+    }
+
+    function showSuggestion() {
+        if (suggestions.length === 0) return; // Stop if all suggestions are shown
+
+        // Get a random suggestion and remove it from the array
+        let randomIndex = Math.floor(Math.random() * suggestions.length);
+        let suggestionText = suggestions.splice(randomIndex, 1)[0];
+
+        // Set the suggestion text
+        document.querySelector('.suggestion-text').textContent = suggestionText;
+
+        // Display the suggestion container
+        document.getElementById('suggestion-container').style.display = 'flex';
+    }
+
+    // Show first suggestion when page loads
+    window.onload = function() {
+        showSuggestion();
+    };
+    </script>
+    
+    <!-- Carousel -->
+<div id="customCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{{ url_for('static', filename='carousel1.jpg') }}" class="d-block w-100" alt="carousel">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='carousel2.jpg') }}" class="d-block w-100" alt="carousel2">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='carousel5.jpg') }}" class="d-block w-100" alt="carousel3">
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="What do you want to learn?">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="typing-text" id="typingText"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<script>
+    // Auto Typing Effect
+    const words = ["Learn New Skills!", "Explore Courses!", "Boost Your Career!"];
+    let wordIndex = 0;
+    let typingText = document.getElementById("typingText");
+
+    function typeEffect() {
+        typingText.textContent = words[wordIndex];
+        wordIndex = (wordIndex + 1) % words.length;
+    }
+
+    setInterval(typeEffect, 4000);
+    typeEffect(); // Initial Call
+</script>
+    <script>
+        document.getElementById('show-coins-btn').addEventListener('click', function () {
+            // Fetch the coin count from the server
+            fetch('/get_coins')
+                .then(response => response.text())
+                .then(coins => {
+                    // Display the coin count in an alert or any other element ${coins}
+                    alert(`🪙You have 1 coins!`);
+                })
+                .catch(error => {
+                    console.error('Error fetching coins:', error);
+                });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const themeToggle = document.getElementById("themeToggle");
+    const body = document.body;
+    const navbar = document.getElementById("navbar");
+    const currentTheme = localStorage.getItem("theme") || "light-mode";
+
+    body.classList.add(currentTheme);
+    if (currentTheme === "dark-mode") {
+        navbar.classList.add("navbar-dark");
+        navbar.classList.remove("navbar-light");
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    } else {
+        navbar.classList.add("navbar-light");
+        navbar.classList.remove("navbar-dark");
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    themeToggle.addEventListener("click", function () {
+        if (body.classList.contains("light-mode")) {
+            body.classList.replace("light-mode", "dark-mode");
+            navbar.classList.replace("navbar-light", "navbar-dark");
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem("theme", "dark-mode");
+        } else {
+            body.classList.replace("dark-mode", "light-mode");
+            navbar.classList.replace("navbar-dark", "navbar-light");
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem("theme", "light-mode");
+        }
+    });
+});
+        </script>
+        <!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+
+    
+        
+        <section id="user-profile" class="container mt-5">
+            <h2 class="text-center">Dashboard</h2>
+            <div class="profile-card shadow p-4 bg-white rounded text-center">
+                <label for="profilePicUpload">
+                    <img id="profilePic" 
+                         src="{{ url_for('static', filename='profile_photos/' + user.profile_photo) if user.profile_photo else url_for('static', filename='default_profile.png') }}" 
+                         alt="Profile Picture" class="rounded-circle" width="100" height="100" style="cursor:pointer;">
+                </label>
+                <input type="file" id="profilePicUpload" style="display: none;" accept="image/*">
+                
+                <h3 class="text-primary mt-3">{{ user.username }}</h3>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                {% if user.date_joined %}
+                    <p><strong>Date Joined:</strong> {{ user.date_joined.strftime('%Y-%m-%d') }}</p>
+                {% endif %}
+                
+                <!-- Leaderboard Box -->
+                <div class="leaderboard-container mt-4">
+                    <h1 class="text-center">🏆 Leaderboard</h1>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Subject</th>
+                                    <th>Score</th>
+                                    <th>Total Questions</th>
+                                    <th>Choices</th>
+                                    <th>Percentage</th>
+                                    <th>Rank</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in leaderboard %}
+                                <tr>
+                                    <td>{{ entry.username }}</td>
+                                    <td>{{ entry.subject }}</td>
+                                    <td>{{ entry.num_correct }}</td>
+                                    <td>{{ entry.num_questions }}</td>
+                                    <td>{{ entry.num_choices }}</td>
+                                    <td>{% if entry.num_questions | int > 0 %}
+                                        {{ ((entry.num_correct | int) / (entry.num_questions | int) * 100) | round(2) }}%
+                                    {% else %}
+                                        0%
+                                    {% endif %}</td>
+                                    <td>
+                                        {% if entry.rank == "Promoted" %}
+                                            <span class="text-success fw-bold">✅ Promoted</span>
+                                        {% else %}
+                                            <span class="text-danger fw-bold">❌ Depromoted</span>
+                                        {% endif %}
+                                    </td>
+                                    
+                                </tr>
+                                {% endfor %}
+                                {% if not leaderboard %}
+                                <tr><td colspan="6" class="text-center">No assessments yet.</td></tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('assessment.assessment_home') }}" class="btn btn-primary">Back to Assessment</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+<script>
+    document.getElementById('profilePicUpload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append("profile_photo", file);
+
+            fetch("/upload-profile-pic", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('profilePic').src = data.image_url;
+                } else {
+                    alert("Failed to upload image");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    });
+</script>
+<div class="container">
+
+<h2>Study Gap Predictor</h2>
+    <p>Username: <input type="text" id="username" placeholder="Enter Username"></p>
+    <button class="btn btn-primary me-2" onclick="startSession()">Start Session</button>
+    <button  class="btn btn-success me-2" onclick="endSession()">End Session</button>
+    <button class="btn btn-warning" onclick="checkGap()">Check Study Gap</button>
+
+    <p id="result"></p>
+
+    <script>
+        let startTime;
+
+        function startSession() {
+            startTime = new Date();
+            alert("Session started!");
+        }
+
+        function endSession() {
+            if (!startTime) {
+                alert("Start session first!");
+                return;
+            }
+
+            let endTime = new Date();
+            let timeSpent = Math.floor((endTime - startTime) / 60000);  // Convert ms to minutes
+            let username = document.getElementById("username").value;
+
+            if (!username) {
+                alert("Enter Username!");
+                return;
+            }
+
+            $.ajax({
+                url: "/track",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ username: username, time_spent: timeSpent }),
+                success: function (response) {
+                    document.getElementById("result").innerHTML = `Days Gap: ${response.days_gap} <br> Total Time Spent: ${response.total_time_spent} mins`;
+                }
+            });
+        }
+
+        function checkGap() {
+            let username = document.getElementById("username").value;
+            if (!username) {
+                alert("Enter Username!");
+                return;
+            }
+
+            $.ajax({
+                url: `/get_gap/${username}`,
+                method: "GET",
+                success: function (response) {
+                    document.getElementById("result").innerHTML = `Days Gap: ${response.days_gap} <br> Total Time Spent: ${response.total_time_spent} mins`;
+                }
+            });
+        }
+    </script>
+
+<!--<section id="user-profile">
+    <h2 class="section-title">Dashboard</h2>
+    <div class="profile-card shadow p-4 bg-white rounded text-center">
+        <label for="profilePicUpload">
+            <img id="profilePic" 
+                 src="{{ url_for('static', filename='default_profile.png') }}" 
+                 alt="Profile Picture" class="rounded-circle" width="100" height="100" style="cursor:pointer;">
+        </label>
+        <input type="file" id="profilePicUpload" style="display: none;" accept="image/*">
+        
+        <h3 class="text-primary mt-3">{{ user.username }}</h3>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        {% if user.date_joined %}
+            <p><strong>Date Joined:</strong> {{ user.date_joined.strftime('%Y-%m-%d') }}</p>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Load saved image from session storage (if exists)
+        const savedImage = sessionStorage.getItem("profileImage");
+        if (savedImage) {
+            document.getElementById("profilePic").src = savedImage;
+        }
+
+        document.getElementById('profilePicUpload').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profilePic').src = e.target.result;
+                    
+                    // 🔹 Store the image temporarily in session storage
+                    sessionStorage.setItem("profileImage", e.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>-->
+
+<main class="container py-5">
+    
+    <section id="calendar" class="calendar-container">
+        <div class="calendar-header">
+            <button onclick="changeMonth(-1)">❮</button>
+            <div>
+                <select id="monthSelect" onchange="renderCalendar()"></select>
+                <select id="yearSelect" onchange="renderCalendar()"></select>
+            </div>
+            <button onclick="changeMonth(1)">❯</button>
+        </div>
+    
+        <div class="calendar-grid">
+            <div class="calendar-day">Sun</div>
+            <div class="calendar-day">Mon</div>
+            <div class="calendar-day">Tue</div>
+            <div class="calendar-day">Wed</div>
+            <div class="calendar-day">Thu</div>
+            <div class="calendar-day">Fri</div>
+            <div class="calendar-day">Sat</div>
+        </div>
+        <div id="calendarDates" class="calendar-grid"></div>
+    </section>
+    <section id="user-input" class="mt-5">
+        <form action="{{ url_for('course') }}" method="post" class="shadow p-4 bg-light rounded">
+            <label for="course_name" class="form-label">Enter the course you want to learn:</label>
+            <div class="input-group">
+                <input type="text" id="course_name" name="course_name" class="form-control" placeholder="Course Name" required>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </section>
+    
+    <section id="content-recommendation" class="mt-5">
+        
+        <h2 class="section-title">Recommended Content</h2>
+        <div class="row g-4">
+            {% for course in [
+                {"title": "Mathematics Basics", "desc": "Learn fundamental math concepts including addition, subtraction, multiplication, and division.", "img": "math.jpg","link":"https://youtu.be/dQw4w9WgXcQ"},
+                {"title": "Science Fundamentals", "desc": "Explore basic scientific principles in physics, chemistry, and biology.", "img": "science.jpg","link":"https://youtu.be/qK9Oh2pU1M8"},
+                {"title": "English Grammar Essentials", "desc": "Master key grammar rules, sentence structures, and vocabulary.", "img": "english.jpg","link":"https://youtu.be/j0sB0sEfcwA"},
+                {"title": "Social Studies Overview", "desc": "Understand history, geography, and civics for a well-rounded perspective.", "img": "socialstudies.jpg","link":"https://youtu.be/R5xR9J7XUnA"},
+                {"title": "Basic Computer Skills", "desc": "Learn about computers, typing, and basic software applications.", "img": "computerskills.jpg","link":"https://youtu.be/vf3wOzyY9O4"},
+                {"title": "Environmental Science", "desc": "Study the impact of humans on nature and learn about sustainability.", "img": "environment.jpg","link":"https://youtu.be/ai5RoLm1S1I"},
+                {"title": "Introduction to Art", "desc": "Develop creativity through drawing, painting, and craft activities.", "img": "art.jpg","link":"https://youtu.be/Uo5oNfE1jvE"},
+                {"title": "Physical Education Basics", "desc": "Learn the importance of exercise, sports, and healthy habits.", "img": "pe.jpg","link":"https://youtu.be/_y5DJflHw58"},
+                {"title": "Music Fundamentals", "desc": "Explore rhythm, melodies, and different musical instruments.", "img": "music.jpg","link":"https://youtu.be/ZW6PoyrWsHQ"},
+                {"title": "Moral Science and Ethics", "desc": "Understand values, kindness, and the importance of good behavior.", "img": "ethics.jpg","link":"https://youtu.be/Z3hkby04EOw"},
+                {"title": "Introduction to Geography", "desc": "Learn about maps, countries, and different landscapes of the world.", "img": "geography.jpg","link":"https://youtu.be/XqY-H0owV_k"},
+                {"title": "Basic Physics Concepts", "desc": "Explore forces, motion, energy, and basic physical laws.", "img": "physics.jpg","link":"https://youtu.be/S2ZoOg2pHyA"},
+                {"title": "Chemistry for Beginners", "desc": "Understand elements, compounds, and basic chemical reactions.", "img": "chemistry.jpg","link":"https://youtu.be/kzYb68qXpD0"},
+                {"title": "Introduction to Biology", "desc": "Study plants, animals, human anatomy, and life processes.", "img": "biology.jpg","link":"https://youtu.be/Pb1Zm6KytH8"},
+                {"title": "History Essentials", "desc": "Learn about ancient civilizations, world history, and important events.", "img": "history.jpg","link":"https://youtu.be/B-mve0Bd1OE"},
+                {"title": "Hindi Language Basics", "desc": "Improve Hindi speaking, reading, and writing skills.", "img": "hindi.jpg","link":"https://youtu.be/a1Y73sPHKxw"},
+                {"title": "Python for Beginners", "desc": "Learn Python programming with hands-on exercises and projects.", "img": "content8.png","link":"https://youtu.be/rfscVS0vtbw?si=4IyiYauBpBkEGMFz"},
+                {"title": "C Programming for Beginners", "desc": "Learn the basics of C programming, including syntax, functions, and pointers.", "img": "content11.png","link":"https://youtu.be/KJgsSFOSQv0?si=43NZlxDnXIb72I8d"}
+            ] %}
+
+            <div class="col-md-6 col-lg-4">
+                <div class="content-card shadow bg-white rounded">
+                    <img src="{{ url_for('static', filename=course.img) }}" alt="{{ course.title }}">
+                    <div class="p-4">
+                        <h5>{{ course.title }}</h5>
+                        <p>{{ course.desc }}</p>
+                        
+                        <a href="{{ url_for('r_course', course_name=course.title) }}" class="btn btn-outline-primary w-100">Learn More</a>
+                        <div class="mt-3">
+                            <a href="{{ course.link }}" target="_blank" class="btn btn-link">Video Link</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </section>
+
+
+    <section id="lesson-generation" class="mt-5">
+        <h2 class="section-title">Generated Lessons</h2>
+        <div class="row g-4">
+            {% for course in saved_courses %}
+            <div class="col-md-6 col-lg-4">
+                <div class="lesson-card shadow p-3 bg-white rounded">
+                    <h5>{{ course.course_name }}</h5>
+                    <p>Description for {{ course.course_name }} course.</p>
+                    <a href="{{ url_for('saved_course', course_name=course.course_name) }}" class="btn btn-success w-100">Start Lesson</a>
+                </div>
+            </div>
+            {% else %}
+                <p class="text-center">No saved courses.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="assessments" class="mt-5">
+        <h2 class="section-title">Feedback Section</h2>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="assessment-card shadow p-4 bg-light rounded text-center">
+                        <h5>Instant Feedback</h5>
+                        <p>Receive immediate feedback with improvement suggestions.</p>
+                        <a href="{{ url_for('feedback') }}" class="btn btn-secondary w-100">View Feedback</a>
+                    </div>
+                </div>
+            </div>
+    </section>
+        
+</main>
+
+<footer>
+    <div>
+        <p>&copy; 2024 AI Learning Platform. All rights reserved.</p>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('about') }}">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
+        </nav>
+    </div>
+</footer>
+
+<script>
+    const monthSelect = document.getElementById('monthSelect');
+    const yearSelect = document.getElementById('yearSelect');
+    const calendarDates = document.getElementById('calendarDates');
+
+    // Global activities object
+    const activities = {
+        "2024-02-20": "Completed Assignment",
+        "2024-02-22": "Upcoming Assessment",
+        "2025-03-12": "you have spent 5 hours 30 minutes",
+        "2025-03-11": "you have python exam at 01:00 pm"
+    };
+
+    function populateMonthYear() {
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth();
+
+        monthSelect.innerHTML = Array.from({ length: 12 }, (_, i) =>
+            `<option value="${i}" ${i === currentMonth ? 'selected' : ''}>${new Date(0, i).toLocaleString('default', { month: 'long' })}</option>`
+        ).join('');
+
+        yearSelect.innerHTML = Array.from({ length: 11 }, (_, i) => {
+            const year = currentYear - 5 + i;
+            return `<option value="${year}" ${year === currentYear ? 'selected' : ''}>${year}</option>`;
+        }).join('');
+    }
+
+    function renderCalendar() {
+        const year = +yearSelect.value;
+        const month = +monthSelect.value;
+        const firstDay = new Date(year, month, 1).getDay();
+        const lastDate = new Date(year, month + 1, 0).getDate();
+
+        calendarDates.innerHTML = '';
+
+        Array.from({ length: firstDay }).forEach(() => {
+            const emptyDiv = document.createElement('div');
+            calendarDates.appendChild(emptyDiv);
+        });
+
+        for (let date = 1; date <= lastDate; date++) {
+            const dateDiv = document.createElement('div');
+            dateDiv.className = 'calendar-date';
+            dateDiv.textContent = date;
+
+            const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+
+            if (formattedDate === new Date().toISOString().split('T')[0]) {
+                dateDiv.classList.add('today');
+            }
+
+            // Check if there is an activity
+            if (activities[formattedDate]) {
+                const indicator = document.createElement('div');
+                indicator.className = 'activity-indicator';
+
+                const popup = document.createElement('div');
+                popup.className = 'activity-popup';
+                popup.textContent = activities[formattedDate];
+
+                dateDiv.appendChild(indicator);
+                dateDiv.appendChild(popup);
+            }
+
+            dateDiv.onclick = () => alert(`Date: ${formattedDate}\nActivity: ${activities[formattedDate] || 'No activity scheduled.'}`);
+            calendarDates.appendChild(dateDiv);
+        }
+    }
+
+    function changeMonth(offset) {
+        let newMonth = monthSelect.selectedIndex + offset;
+        let newYear = +yearSelect.value;
+
+        if (newMonth < 0) {
+            newMonth = 11;
+            newYear--;
+        } else if (newMonth > 11) {
+            newMonth = 0;
+            newYear++;
+        }
+
+        monthSelect.selectedIndex = newMonth;
+        yearSelect.value = newYear;
+        renderCalendar();
+    }
+
+    populateMonthYear();
+    renderCalendar();
+</script>
+
+<!-- Chatbot Button -->
+<button id="toggle-chat">Chat</button>
+
+<!-- Chatbot Overlay -->
+<div id="chat-overlay"></div>
+
+<!-- Chatbot Container -->
+<!-- Chatbot Container -->
+<div id="chat-container">
+    <div id="chat-header">AI Assistant <button id="close-chat">X</button></div>
+    <div id="chat-box"></div>
+    <input id="chat-user-input" placeholder="Type a message..."></input>
+</div>
+
+
+
+<!-- Chatbot JavaScript -->
+<script>
+
+
+  //(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="k85wZzlPwdB-0eZciNhbI";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+
+    document.addEventListener('DOMContentLoaded', function () {
+    // Toggle Chatbot
+    const toggleChat = document.getElementById('toggle-chat');
+    const chatContainer = document.getElementById('chat-container');
+    const chatOverlay = document.getElementById('chat-overlay');
+    const closeChat = document.getElementById('close-chat');
+    const inputField = document.getElementById('chat-user-input'); // Updated ID
+    const chatBox = document.getElementById('chat-box');
+
+    console.log("Input field:", inputField); // Debugging
+
+    if (toggleChat && chatContainer && chatOverlay) {
+        toggleChat.addEventListener('click', function () {
+            chatContainer.style.display = 'block';
+            chatOverlay.style.display = 'block';
+            toggleChat.style.display = 'none'; // Hide the button when chatbot is opened
+        });
+
+        closeChat.addEventListener('click', closeChatbot);
+        chatOverlay.addEventListener('click', closeChatbot);
+    }
+
+    function closeChatbot() {
+        chatContainer.style.display = 'none';
+        chatOverlay.style.display = 'none';
+        toggleChat.style.display = 'block'; // Show the button when chatbot is closed
+    }
+
+    // Handle Enter Key Press
+    if (inputField) {
+        inputField.addEventListener('keypress', function (event) {
+            console.log("Key pressed:", event.key); // Debugging
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission
+                console.log("Enter key pressed, calling sendMessage..."); // Debugging
+                sendMessage(); // Call the sendMessage function
+            }
+        });
+    }
+
+    // Send Message to Chatbot
+    async function sendMessage() {
+        const userMessage = inputField.value.trim();
+        if (!userMessage) return;
+
+        console.log("Sending message:", userMessage); // Debugging
+
+        // Add user message to chat box
+        addMessage(userMessage, 'user-message');
+        inputField.value = '';
+
+        try {
+            console.log("Sending request to /chat..."); // Debugging
+
+            // Send message to backend
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: userMessage }),
+            });
+
+            console.log("Response received:", response); // Debugging
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("Response data:", data); // Debugging
+
+            // Add bot response to chat box
+            addMessage(data.response, 'bot-message');
+        } catch (error) {
+            console.error('Error:', error);
+            addMessage('Error: Failed to get response', 'bot-message');
+        }
+
+        // Scroll to the bottom of the chat box
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Function to Add Messages to Chat Box
+    function addMessage(text, className) {
+        const messageElement = document.createElement('div');
+        messageElement.className = className;
+        messageElement.innerHTML = text;
+        chatBox.appendChild(messageElement);
+        return messageElement;
+    }
+});
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Map Bot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Floating Button -->
+    <button id="rchatToggleBtn">🗺️ Route Bot</button>
+
+   <!-- rchat Bot Container -->
+   <div id="rchatContainer">
+    <div id="rchatHeader">
+        <span>Route Map Bot</span>
+        <button id="rchatCloseBtn">✖</button>
+    </div>
+    <div id="rchatMessages"></div>
+    <div id="rchatInputContainer">
+        <input type="text" id="rchatInput" placeholder="Ask for a route...">
+        <button id="rchatSendBtn">Send</button>
+    </div>
+</div>
+
+<!-- Correct path for JavaScript -->
+<script src="{{ url_for('static', filename='rchat.js') }}"></script>
+
+
+
+
+</body>
+</html>
