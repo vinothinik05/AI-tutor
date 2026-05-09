@@ -57,7 +57,7 @@ Integrate advanced analytics for educators.
 Open Source — MIT License.
 
 🤝 Contact
-📧 vino12752@gmail.com
+📧 vinothini2k5@gmail.com
 
 🌟 Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
